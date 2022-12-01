@@ -22,11 +22,58 @@ const findById = (req, res) => {
     res.send(item);
 }
 
-const create = (req, sen) => { }
+const create = (req, res) => {
 
-const update = (req, sen) => { }
+    const item = req.body;
 
-const deleteById = (req, sen) => { }
+    if (!item || !item.name || !item.imageUrl || !item.category) {
+        return res.status(400).send({ message: "Dados inválidos!" })
+    }
+
+    const newItem = {};
+
+    res.status(201).send(newItem);
+}
+
+const update = (req, res) => {
+
+    const id = req.params.id;
+
+    if (!isObjectIdValid(id)) {
+        return res.status(400).send({ message: "ID inválido!" });
+    }
+
+    const item = req.body;
+
+    if (!item || !item.name || !item.imageUrl || !item.category) {
+        return res.status(400).send({ message: "Dados inválidos!" })
+    }
+
+    const updatedItem = {};
+
+    if (!updatedItem) {
+        return res.send(404).send({message: "Item não encontrado!"})
+    }
+
+    res.send({message: "Item atualizado com sucesso!"});
+
+}
+
+const deleteById = (req, res) => {
+    const id = req.params.id;
+
+    if (!isObjectIdValid(id)) {
+        return res.status(400).send({ message: "ID inválido!" });
+    }
+
+    const deletedItem = {};
+
+    if (!deletedItem) {
+        return res.send(404).send({message: "Item não encontrado!"})
+    }
+
+    res.send({message: "Item excluido com sucesso!"});
+ }
 
 
 module.exports = {
