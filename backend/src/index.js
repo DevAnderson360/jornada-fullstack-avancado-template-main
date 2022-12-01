@@ -22,7 +22,6 @@ async function main() {
   });
 
   // Inicialização dos `Routers`
-  // ...
   app.use("/item", itemRouter);
 
   // Inicia o servidor
