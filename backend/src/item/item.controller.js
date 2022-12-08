@@ -1,19 +1,21 @@
+//imports
 const { isObjectIdValid } = require("../db/database.helper");
+const service = require("./item.service");
 
-const findAll = (req, res) => {
-    const items = [];
+const findAll = async (req, res) => {
+    const items = await service.findAll();
 
     res.send(items);
 }
 
-const findById = (req, res) => {
+const findById = async (req, res) => {
     const id = req.params.id;
 
     if (!isObjectIdValid(id)) {
         return res.status(400).send({ message: "ID inválido!" });
     }
 
-    const item = {};
+    const item = await service.findById(id);
 
     if (!item) {
         return res.status(404).send({ message: "Item não encontrado." })
@@ -22,21 +24,19 @@ const findById = (req, res) => {
     res.send(item);
 }
 
-const create = (req, res) => {
-
+const create = async (req, res) => {
     const item = req.body;
 
     if (!item || !item.name || !item.imageUrl || !item.category) {
         return res.status(400).send({ message: "Dados inválidos!" })
     }
 
-    const newItem = {};
+    const newItem = await service.create(item);
 
     res.status(201).send(newItem);
 }
 
-const update = (req, res) => {
-
+const update = async (req, res) => {
     const id = req.params.id;
 
     if (!isObjectIdValid(id)) {
@@ -49,13 +49,13 @@ const update = (req, res) => {
         return res.status(400).send({ message: "Dados inválidos!" })
     }
 
-    const updatedItem = {};
+    const updatedItem = await service.update(item);
 
     if (!updatedItem) {
-        return res.send(404).send({message: "Item não encontrado!"})
+        return res.send(404).send({ message: "Item não encontrado!" })
     }
 
-    res.send({message: "Item atualizado com sucesso!"});
+    res.send({ message: "Item atualizado com sucesso!" });
 
 }
 
@@ -69,11 +69,11 @@ const deleteById = (req, res) => {
     const deletedItem = {};
 
     if (!deletedItem) {
-        return res.send(404).send({message: "Item não encontrado!"})
+        return res.send(404).send({ message: "Item não encontrado!" })
     }
 
-    res.send({message: "Item excluido com sucesso!"});
- }
+    res.send({ message: "Item excluido com sucesso!" });
+}
 
 
 module.exports = {
