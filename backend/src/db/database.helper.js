@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-
 const dataBaseUrl = "mongodb://127.0.0.1:27017/jornada-fullstack-avancado";
 
 const isObjectIdValid = (id) => {
-    return true;
+    return mongoose.Types.ObjectId.isValid(id);
 }
 
 const connectToDatabase = () => {
