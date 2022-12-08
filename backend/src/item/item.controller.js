@@ -49,7 +49,7 @@ const update = async (req, res) => {
         return res.status(400).send({ message: "Dados inválidos!" })
     }
 
-    const updatedItem = await service.update(item);
+    const updatedItem = await service.update(item._id, item);
 
     if (!updatedItem) {
         return res.send(404).send({ message: "Item não encontrado!" })
@@ -59,14 +59,14 @@ const update = async (req, res) => {
 
 }
 
-const deleteById = (req, res) => {
+const deleteById = async (req, res) => {
     const id = req.params.id;
 
     if (!isObjectIdValid(id)) {
         return res.status(400).send({ message: "ID inválido!" });
     }
 
-    const deletedItem = {};
+    const deletedItem = await service.deleteById(id);
 
     if (!deletedItem) {
         return res.send(404).send({ message: "Item não encontrado!" })
