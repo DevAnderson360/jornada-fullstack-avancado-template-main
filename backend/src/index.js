@@ -11,8 +11,6 @@ const categoryRouter = require("./category/category.router");
 const port = process.env.PORT || 3000;
 
 async function main() {
-
-  //cria a conexão com o banco de dados
   await connectToDatabase();
 
   // Cria o servidor `express`
@@ -30,7 +28,7 @@ async function main() {
   // Inicialização dos `Routers`
   app.use("/item", itemRouter);
   app.use("/category", categoryRouter);
-  
+
   // Inicia o servidor
   app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);

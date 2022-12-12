@@ -1,85 +1,81 @@
-//imports
-const { isObjectIdValid } = require("../db/database.helper");
 const service = require("./item.service");
+const { isObjectIdValid } = require("../db/database.helper");
 
 const findAll = async (req, res) => {
-    const items = await service.findAll();
-
-    res.send(items);
-}
+  const items = await service.findAll();
+  res.send(items);
+};
 
 const findById = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    if (!isObjectIdValid(id)) {
-        return res.status(400).send({ message: "ID inválido!" });
-    }
+  if (!isObjectIdValid(id)) {
+    return res.status(400).send({ message: "ID inválido!" });
+  }
 
-    const item = await service.findById(id);
+  const item = await service.findById(id);
 
-    if (!item) {
-        return res.status(404).send({ message: "Item não encontrado." })
-    }
+  if (!item) {
+    return res.status(404).send({ message: "Item não encontrado." });
+  }
 
-    res.send(item);
-}
+  res.send(item);
+};
 
 const create = async (req, res) => {
-    const item = req.body;
+  const item = req.body;
 
-    if (!item || !item.name || !item.imageUrl || !item.category) {
-        return res.status(400).send({ message: "Dados inválidos!" })
-    }
+  if (!item || !item.name || !item.imageUrl || !item.category) {
+    return res.status(400).send({ message: "Dados inválidos." });
+  }
 
-    const newItem = await service.create(item);
+  const newItem = await service.create(item);
 
-    res.status(201).send(newItem);
-}
+  res.status(201).send(newItem);
+};
 
 const update = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    if (!isObjectIdValid(id)) {
-        return res.status(400).send({ message: "ID inválido!" });
-    }
+  if (!isObjectIdValid(id)) {
+    return res.status(400).send({ message: "ID inválido!" });
+  }
 
-    const item = req.body;
+  const item = req.body;
 
-    if (!item || !item.name || !item.imageUrl || !item.category) {
-        return res.status(400).send({ message: "Dados inválidos!" })
-    }
+  if (!item || !item.name || !item.imageUrl || !item.category) {
+    return res.status(400).send({ message: "Dados inválidos!" });
+  }
 
-    const updatedItem = await service.update(item._id, item);
+  const updatedItem = await service.update(id, item);
 
-    if (!updatedItem) {
-        return res.send(404).send({ message: "Item não encontrado!" })
-    }
+  if (!updatedItem) {
+    return res.status(404).send({ message: "Item não encontrado!" });
+  }
 
-    res.send({ message: "Item atualizado com sucesso!" });
-
-}
+  res.send({ message: "Item atualizado com sucesso!" });
+};
 
 const deleteById = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    if (!isObjectIdValid(id)) {
-        return res.status(400).send({ message: "ID inválido!" });
-    }
+  if (!isObjectIdValid(id)) {
+    return res.status(400).send({ message: "ID inválido!" });
+  }
 
-    const deletedItem = await service.deleteById(id);
+  const deletedItem = await service.deleteById(id);
 
-    if (!deletedItem) {
-        return res.send(404).send({ message: "Item não encontrado!" })
-    }
+  if (!deletedItem) {
+    return res.status(404).send({ message: "Item não encontrado!" });
+  }
 
-    res.send({ message: "Item excluido com sucesso!" });
-}
-
+  res.send({ message: "Item excluído com sucesso!" });
+};
 
 module.exports = {
-    findAll,
-    findById,
-    create,
-    update,
-    deleteById,
-}
+  findAll,
+  findById,
+  create,
+  update,
+  deleteById,
+};
