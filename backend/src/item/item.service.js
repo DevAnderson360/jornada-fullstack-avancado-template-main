@@ -6,7 +6,8 @@ const findAll = () => {
     _id: true,
     name: true,
     imageUrl: true,
-  });
+  }).populate("category");
+
 };
 
 const findById = (id) => {
